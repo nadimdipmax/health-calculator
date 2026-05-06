@@ -1,1 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health Calculator Hub</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      color: #ffffff;
+      background:
+        radial-gradient(circle at top left, rgba(0, 255, 204, 0.35), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(255, 64, 129, 0.35), transparent 35%),
+        linear-gradient(135deg, #071952, #0b666a, #35a29f);
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 55px 20px 30px;
+    }
+
+    header h1 {
+      font-size: 48px;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      font-size: 18px;
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.6;
+      color: #e8fffb;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1150px;
+      margin: 25px auto 60px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(14px);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+      transition: 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.35);
+    }
+
+    .card h2 {
+      font-size: 27px;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    .card p {
+      font-size: 15px;
+      color: #e7fffb;
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 7px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 13px 14px;
+      border: none;
+      outline: none;
+      border-radius: 14px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #123;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #00ffcc, #00b4d8);
+      color: #07213d;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+      background: linear-gradient(135deg, #ffffff, #00ffcc);
+    }
+
+    .result {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.28);
+      font-size: 17px;
+      line-height: 1.5;
+      min-height: 55px;
+    }
+
+    .highlight {
+      font-size: 22px;
+      font-weight: bold;
+      color: #00ffcc;
+    }
+
+    .note {
+      width: 92%;
+      max-width: 1000px;
+      margin: 0 auto 50px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 20px;
+      padding: 22px;
+      text-align: center;
+      color: #efffff;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      background: rgba(0, 0, 0, 0.25);
+      color: #e7fffb;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 34px;
+      }
+
+      header p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Health Calculator Hub</h1>
+    <p>
+      A simple and colorful health calculator website for BMI, weight conversion,
+      and daily water intake estimation.
+    </p>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>BMI Calculator</h2>
+      <p>Calculate your Body Mass Index using your height and weight.</p>
+
+      <label for="bmiWeight">Weight (kg)</label>
+      <input type="number" id="bmiWeight" placeholder="Example: 70" />
+
+      <label for="bmiHeight">Height (cm)</label>
+      <input type="number" id="bmiHeight" placeholder="Example: 175" />
+
+      <button onclick="calculateBMI()">Calculate BMI</button>
+      <div class="result" id="bmiResult">Your BMI result will appear here.</div>
+    </section>
+
+    <section class="card">
+      <h2>Weight Converter</h2>
+      <p>Convert weight between kilograms and pounds instantly.</p>
+
+      <label for="weightValue">Enter Weight</label>
+      <input type="number" id="weightValue" placeholder="Example: 65" />
+
+      <label for="weightType">Convert From</label>
+      <select id="weightType">
+        <option value="kgToLb">Kilograms to Pounds</option>
+        <option value="lbToKg">Pounds to Kilograms</option>
+      </select>
+
+      <button onclick="convertWeight()">Convert Weight</button>
+      <div class="result" id="weightResult">Your converted weight will appear here.</div>
+    </section>
+
+    <section class="card">
+      <h2>Water Intake Calculator</h2>
+      <p>Estimate how much water you should drink daily based on body weight.</p>
+
+      <label for="waterWeight">Weight (kg)</label>
+      <input type="number" id="waterWeight" placeholder="Example: 70" />
+
+      <button onclick="calculateWater()">Calculate Water Intake</button>
+      <div class="result" id="waterResult">Your daily water intake will appear here.</div>
+    </section>
+  </main>
+
+  <div class="note">
+    <strong>Note:</strong> This website gives basic health estimates for learning purposes only.
+    It is not a medical diagnosis. For personal health concerns, always consult a healthcare professional.
+  </div>
+
+  <footer>
+    <p>© 2026 Health Calculator Hub | Created with GitHub Pages</p>
+  </footer>
+
+  <script>
+    function calculateBMI() {
+      const weight = parseFloat(document.getElementById('bmiWeight').value);
+      const heightCm = parseFloat(document.getElementById('bmiHeight').value);
+      const result = document.getElementById('bmiResult');
+
+      if (!weight || !heightCm || weight <= 0 || heightCm <= 0) {
+        result.innerHTML = 'Please enter a valid weight and height.';
+        return;
+      }
+
+      const heightM = heightCm / 100;
+      const bmi = weight / (heightM * heightM);
+      let category = '';
+
+      if (bmi < 18.5) {
+        category = 'Underweight';
+      } else if (bmi < 25) {
+        category = 'Normal weight';
+      } else if (bmi < 30) {
+        category = 'Overweight';
+      } else {
+        category = 'Obesity range';
+      }
+
+      result.innerHTML = `Your BMI is <span class="highlight">${bmi.toFixed(1)}</span><br>Category: <strong>${category}</strong>`;
+    }
+
+    function convertWeight() {
+      const value = parseFloat(document.getElementById('weightValue').value);
+      const type = document.getElementById('weightType').value;
+      const result = document.getElementById('weightResult');
+
+      if (!value || value <= 0) {
+        result.innerHTML = 'Please enter a valid weight.';
+        return;
+      }
+
+      if (type === 'kgToLb') {
+        const pounds = value * 2.20462;
+        result.innerHTML = `<span class="highlight">${value} kg</span> = <strong>${pounds.toFixed(2)} lb</strong>`;
+      } else {
+        const kg = value / 2.20462;
+        result.innerHTML = `<span class="highlight">${value} lb</span> = <strong>${kg.toFixed(2)} kg</strong>`;
+      }
+    }
+
+    function calculateWater() {
+      const weight = parseFloat(document.getElementById('waterWeight').value);
+      const result = document.getElementById('waterResult');
+
+      if (!weight || weight <= 0) {
+        result.innerHTML = 'Please enter a valid weight.';
+        return;
+      }
+
+      const waterMl = weight * 35;
+      const waterLiters = waterMl / 1000;
+
+      result.innerHTML = `Estimated daily water intake: <span class="highlight">${waterLiters.toFixed(2)} liters</span><br>Approx: <strong>${Math.round(waterMl)} ml</strong>`;
+    }
+  </script>
+</body>
+</html>
 
